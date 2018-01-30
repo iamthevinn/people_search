@@ -1,0 +1,28 @@
+
+
+.searchBox {
+  padding-top: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.listOfUsers {
+  display: flex;
+  justify-content: center;
+}
+
+.filteredList {
+  border: 1px solid black;
+  width: 130px;
+}
+
+.displayUserInfo {
+padding-left: 400px;
+
+}
+
+.backButton {
+  text-align: right;
+  padding: 10px;
+}

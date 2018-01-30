@@ -122,7 +122,6 @@ class App extends Component {
   }
 
   backToSearch() {
-    console.log("back")
     this.setState({diplayedUser: null,inputText: ""})
   }
   

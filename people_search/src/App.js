@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-const DisplayedUser = (props) => {
+const DisplayUser = (props) => {
   const {name, city, industry, hobbies, email} = props.displayedUser;
   return <div>
           <div className="backButton">
@@ -20,12 +20,28 @@ const DisplayedUser = (props) => {
 
 const SearchUser = (props) => {
 
+  let usersToDisplay = props.getUsersToDisplay();
+  console.log(usersToDisplay)
+  let listContents = null;
+  if (usersToDisplay)
+    listContents = usersToDisplay.map((user) => { 
+      if (user)
+        return <div key={user.id} onClick={() => props.showUserInfo(user)} >{user.name}</div>
+      else
+        return null
+      }
+    )
+  console.log(listContents)
+  let listContainer = null;
+  if (listContents != null && props.allItemsNull(listContents))
+    listContainer = <div className="filteredList">{listContents}</div>
+
   return <div>
             <div className="searchBox">
               <input onChange={props.changingInputText} placeholder="Enter a username"/>
             </div>
             <div className="listOfUsers">
-              {props.listContainer}
+              {listContainer}
           </div></div>
 }
 
@@ -113,27 +129,10 @@ class App extends Component {
   
   render() {
 
-    let usersToDisplay = this.getUsersToDisplay();
-    console.log(usersToDisplay)
-
-    let listContents = null;
-    if (usersToDisplay)
-      listContents = usersToDisplay.map((user) => { 
-        if (user)
-          return <div key={user.id} onClick={() => this.showUserInfo(user)} >{user.name}</div>
-        else
-          return null
-        }
-      )
-    
-    let listContainer = null;
-    if (listContents != null && this.allItemsNull(listContents))
-      listContainer = <div className="filteredList">{listContents}</div>
-
-    let app = <SearchUser changingInputText={this.changingInputText} listContainer={listContainer} showUserInfo={this.showUserInfo}/>
+    let app = <SearchUser changingInputText={this.changingInputText} allItemsNull={this.allItemsNull} showUserInfo={this.showUserInfo} getUsersToDisplay={this.getUsersToDisplay} />
 
     if (this.state.diplayedUser)
-      app = <DisplayedUser displayedUser={this.state.diplayedUser} backToSearch={this.backToSearch}/>    
+      app = <DisplayUser displayedUser={this.state.diplayedUser} backToSearch={this.backToSearch}/>    
     
     return (
       <div className="App">

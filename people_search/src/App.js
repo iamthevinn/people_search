@@ -21,7 +21,6 @@ const DisplayUser = (props) => {
 const SearchUser = (props) => {
 
   let usersToDisplay = props.getUsersToDisplay();
-  console.log(usersToDisplay)
   let listContents = null;
   if (usersToDisplay)
     listContents = usersToDisplay.map((user) => { 
@@ -31,7 +30,7 @@ const SearchUser = (props) => {
         return null
       }
     )
-  console.log(listContents)
+    
   let listContainer = null;
   if (listContents != null && props.allItemsNull(listContents))
     listContainer = <div className="filteredList">{listContents}</div>

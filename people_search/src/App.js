@@ -2,6 +2,33 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+const DisplayedUser = (props) => {
+  const {name, city, industry, hobbies, email} = props.displayedUser;
+  return <div>
+          <div className="backButton">
+            <a href="javascript:void(0);" onClick={props.backToSearch}>Back</a>
+          </div>
+          <div className="displayUserInfo">
+            <h1>{name}</h1>
+            <div>City: {city}</div>
+            <div>Industry: {industry}</div>
+            <div>Hobbies: {hobbies}</div>
+            <div>Email: {email}</div>
+          </div>
+        </div>
+}
+
+const SearchUser = (props) => {
+
+  return <div>
+            <div className="searchBox">
+              <input onChange={props.changingInputText} placeholder="Enter a username"/>
+            </div>
+            <div className="listOfUsers">
+              {props.listContainer}
+          </div></div>
+}
+
 const genId = (str1, str2, str3) => {
   const megaStr = '' + str1 + str2 + str3;
   const chars = [];
@@ -103,27 +130,10 @@ class App extends Component {
     if (listContents != null && this.allItemsNull(listContents))
       listContainer = <div className="filteredList">{listContents}</div>
 
-    let app = <div><div className="searchBox">
-                <input onChange={this.changingInputText} placeholder="Enter a username"/>
-              </div>
-              <div className="listOfUsers">
-                {listContainer}
-              </div></div>
+    let app = <SearchUser changingInputText={this.changingInputText} listContainer={listContainer} showUserInfo={this.showUserInfo}/>
 
     if (this.state.diplayedUser)
-      app = <div>
-                <div className="backButton">
-                  <a href="javascript:void(0);" onClick={this.backToSearch}>Back</a>
-                </div>
-                <div className="displayUserInfo">
-                  <h1>{this.state.diplayedUser.name}</h1>
-                  <div>City: {this.state.diplayedUser.name}</div>
-                  <div>Industry: {this.state.diplayedUser.industry}</div>
-                  <div>Hobbies: {this.state.diplayedUser.hobbies}</div>
-                  <div>Email: {this.state.diplayedUser.email}</div>
-              </div>
-            </div>
-      
+      app = <DisplayedUser displayedUser={this.state.diplayedUser} backToSearch={this.backToSearch}/>    
     
     return (
       <div className="App">

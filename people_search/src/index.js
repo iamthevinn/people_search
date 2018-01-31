@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import { createStore } from 'redux'
-import { Provider} from 'react-redux'
+import { createStore, compose } from 'redux';
+import { Provider } from 'react-redux';
 
-const SEARCH_USER = 'SEARCH_USER';
-const GO_BACK_TO_SEARCH = 'GO_BACK_TO_SEARCH';
+export const SEARCH_USER = "SEARCH_USER"
+export const GO_BACK_TO_SEARCH = "GO_BACK_TO_SEARCH"
+export const UPDATE_MATCHING_USERS = "UPDATE_MATCHING_USERS"
 
 const genId = (str1, str2, str3) => {
     const megaStr = '' + str1 + str2 + str3;
@@ -61,13 +62,15 @@ function reducer(state=initialState, action) {
         case SEARCH_USER:
             return {...state, displayedUser: action.payload};
         case GO_BACK_TO_SEARCH:
-            return {...state, displayedUser: null, users: initialUserArray};
+            return {...state, displayedUser: null};
+        case UPDATE_MATCHING_USERS:
+            return {...state, users: initialUserArray.filter(user => user.name.startsWith(action.payload))}
         default:
             return state;
     }
 }
 
-const store = createStore(reducer);
+const store = createStore(reducer,compose(window.devToolsExtension ? window.devToolsExtension() : f => f));
 
 const Root = () => (
     <Provider store={store}>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
 import {connect} from 'react-redux'
 import { SEARCH_USER, GO_BACK_TO_SEARCH, UPDATE_MATCHING_USERS, UPDATE_INPUT_TEXT } from './index.js';
@@ -38,21 +38,21 @@ const mapDispatchToPropsForDisplayUser = (dispatch) => {
 const DisplayUserWrapped = connect(mapStateToPropsForDisplayUser,mapDispatchToPropsForDisplayUser)(DisplayUser)
 
 const SearchUser = (props) => {
-  const { showUserInfo } = props;
+  const { showUserInfo, updateMatchingList, updateInputValue, users, inputText} = props;
   let listContainer = null;
-  if (props.users.length) {
-    const listContents = props.users.map((user) => (<div key={user.id} onClick={() => showUserInfo(user)}>{user.name}</div>))
+  if (users.length) {
+    const listContents = users.map((user) => (<div key={user.id} onClick={() => showUserInfo(user)}>{user.name}</div>))
     listContainer = <div className="filteredList">{listContents}</div>
   }
 
   function changingInputText(event) {
-    props.updateMatchingList(event.target.value)
-    props.updateInputValue(event.target.value)
+    updateMatchingList(event.target.value)
+    updateInputValue(event.target.value)
   }
 
   return <div>
     <div className="searchBox">
-      <input onChange={changingInputText} value={props.inputText} placeholder="Enter a username" />
+      <input onChange={changingInputText} value={inputText} placeholder="Enter a username" />
     </div>
     <div className="listOfUsers">
       {listContainer}
@@ -84,24 +84,14 @@ const mapDispatchToPropsForSearchUser = (dispatch) => {
 
 const SearchUserWrapped = connect(mapStateToPropsForSearchUser, mapDispatchToPropsForSearchUser)(SearchUser);
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-
-  render() {
-
-   let app = <SearchUserWrapped />
-    if (this.props.displayedUser)
-      app = <DisplayUserWrapped />
-
-    return (
-      <div className="App">
-        {app}
-      </div>
-    );
-  }
+const App = (props) => {
+  let app = <SearchUserWrapped />
+  if (props.displayedUser)
+    app = <DisplayUserWrapped />
+  return (
+    <div className="App">
+      {app}
+    </div>)
 }
 
 

@@ -49,7 +49,15 @@ const DisplayUserWrapped = connect(mapStateToPropsForDisplayUser,mapDispatchToPr
 }*/
 
 DisplayUser.propTypes = {
-  displayedUser: PropTypes.object
+  displayedUser: PropTypes.shape({
+    name: PropTypes.string,
+    city: PropTypes.string,
+    industry: PropTypes.string,
+    hobbies: PropTypes.string,
+    email: PropTypes.string,
+    displayedUser: PropTypes.object,
+    backToSearch: PropTypes.func
+  })
 }
 
 const SearchUser = (props) => {

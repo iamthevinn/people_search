@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 export const SEARCH_USER = "SEARCH_USER"
 export const GO_BACK_TO_SEARCH = "GO_BACK_TO_SEARCH"
 export const UPDATE_MATCHING_USERS = "UPDATE_MATCHING_USERS"
+export const UPDATE_INPUT_TEXT = "UPDATE_INPUT_TEXT"
 
 const genId = (str1, str2, str3) => {
     const megaStr = '' + str1 + str2 + str3;
@@ -54,7 +55,8 @@ const initialUserArray = [
 
 const initialState = {
     users: initialUserArray,
-    diplayedUser: null
+    diplayedUser: null,
+    inputText: ""
 }
 
 function reducer(state=initialState, action) {
@@ -65,6 +67,8 @@ function reducer(state=initialState, action) {
             return {...state, displayedUser: null};
         case UPDATE_MATCHING_USERS:
             return {...state, users: initialUserArray.filter(user => user.name.includes(action.payload))}
+        case UPDATE_INPUT_TEXT:
+            return {...state, inputText: action.payload}
         default:
             return state;
     }

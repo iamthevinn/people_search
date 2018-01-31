@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import {connect} from 'react-redux'
-import { SEARCH_USER, GO_BACK_TO_SEARCH, UPDATE_MATCHING_USERS } from './index.js';
+import { SEARCH_USER, GO_BACK_TO_SEARCH, UPDATE_MATCHING_USERS, UPDATE_INPUT_TEXT } from './index.js';
 
 const DisplayUser = (props) => {
   const { name, city, industry, hobbies, email } = props.displayedUser;
@@ -45,9 +45,14 @@ const SearchUser = (props) => {
     listContainer = <div className="filteredList">{listContents}</div>
   }
 
+  function changingInputText(event) {
+    props.updateMatchingList(event.target.value)
+    props.updateInputValue(event.target.value)
+  }
+
   return <div>
     <div className="searchBox">
-      <input onChange={props.changingInputText} value={props.inputText} placeholder="Enter a username" />
+      <input onChange={changingInputText} value={props.inputText} placeholder="Enter a username" />
     </div>
     <div className="listOfUsers">
       {listContainer}
@@ -57,7 +62,8 @@ const SearchUser = (props) => {
 
 const mapStateToPropsForSearchUser = (state) => {
   return {
-    users: state.users
+    users: state.users,
+    inputText: state.inputText
   }
 }
 
@@ -66,6 +72,12 @@ const mapDispatchToPropsForSearchUser = (dispatch) => {
   return {
     showUserInfo(user) {
       dispatch({ type: SEARCH_USER, payload: user})
+    },
+    updateInputValue(text) {
+      dispatch({ type: UPDATE_INPUT_TEXT, payload: text})
+    },
+    updateMatchingList(substring) {
+      dispatch({ type: UPDATE_MATCHING_USERS, payload: substring})
     }
   }
 }
@@ -75,20 +87,12 @@ const SearchUserWrapped = connect(mapStateToPropsForSearchUser, mapDispatchToPro
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      inputText: ""
-    }
-
-    this.changingInputText = this.changingInputText.bind(this);
   }
 
-  changingInputText(event) {
-    this.props.updateMatchingList(event.target.value)
-    this.setState({ inputText: event.target.value})
-  }
+
   render() {
 
-   let app = <SearchUserWrapped inputText={this.state.inputText} changingInputText={this.changingInputText}/>
+   let app = <SearchUserWrapped />
     if (this.props.displayedUser)
       app = <DisplayUserWrapped />
 
@@ -107,13 +111,5 @@ const mapStateToPropsForApp = (state) => {
   }
 }
 
-const mapDispatchToPropsForApp = (dispatch) => {
-  return {
-    updateMatchingList(substring) {
-      dispatch({ type: UPDATE_MATCHING_USERS, payload: substring})
-    }
-  }
-}
 
-
-export default connect(mapStateToPropsForApp, mapDispatchToPropsForApp)(App)
+export default connect(mapStateToPropsForApp)(App)

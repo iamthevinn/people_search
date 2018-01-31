@@ -40,7 +40,7 @@ const DisplayUserWrapped = connect(mapStateToPropsForDisplayUser,mapDispatchToPr
 const SearchUser = (props) => {
   const { showUserInfo } = props;
   let listContainer = null;
-  if (props.users) {
+  if (props.users.length) {
     const listContents = props.users.map((user) => (<div key={user.id} onClick={() => showUserInfo(user)}>{user.name}</div>))
     listContainer = <div className="filteredList">{listContents}</div>
   }
@@ -117,7 +117,3 @@ const mapDispatchToPropsForApp = (dispatch) => {
 
 
 export default connect(mapStateToPropsForApp, mapDispatchToPropsForApp)(App)
-
-//export default connect(mapStateToProps, mapDispatchToProps)(SearchUser);
-//export default connect(mapStateToPropsForDisplayUser, mapDispatchToPropsForDisplayUser)(DisplayUser);
-

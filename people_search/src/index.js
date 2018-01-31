@@ -64,7 +64,7 @@ function reducer(state=initialState, action) {
         case GO_BACK_TO_SEARCH:
             return {...state, displayedUser: null};
         case UPDATE_MATCHING_USERS:
-            return {...state, users: initialUserArray.filter(user => user.name.startsWith(action.payload))}
+            return {...state, users: initialUserArray.filter(user => user.name.includes(action.payload))}
         default:
             return state;
     }

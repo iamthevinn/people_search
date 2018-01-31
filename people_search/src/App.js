@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import {connect} from 'react-redux'
 import { SEARCH_USER, GO_BACK_TO_SEARCH, UPDATE_MATCHING_USERS, UPDATE_INPUT_TEXT } from './index.js';
+import PropTypes from 'prop-types';
 
 const DisplayUser = (props) => {
   const { name, city, industry, hobbies, email } = props.displayedUser;
@@ -36,6 +37,20 @@ const mapDispatchToPropsForDisplayUser = (dispatch) => {
 }
 
 const DisplayUserWrapped = connect(mapStateToPropsForDisplayUser,mapDispatchToPropsForDisplayUser)(DisplayUser)
+
+/*DisplayUser.propTypes = {
+  name: PropTypes.string,
+  city: PropTypes.string,
+  industry: PropTypes.string,
+  hobbies: PropTypes.string,
+  email: PropTypes.string,
+  displayedUser: PropTypes.object,
+  backToSearch: PropTypes.func
+}*/
+
+DisplayUser.propTypes = {
+  displayedUser: PropTypes.object
+}
 
 const SearchUser = (props) => {
   const { showUserInfo, updateMatchingList, updateInputValue, users, inputText} = props;
@@ -84,6 +99,14 @@ const mapDispatchToPropsForSearchUser = (dispatch) => {
 
 const SearchUserWrapped = connect(mapStateToPropsForSearchUser, mapDispatchToPropsForSearchUser)(SearchUser);
 
+SearchUser.propTypes = {
+  users: PropTypes.array,
+  inputText: PropTypes.string,
+  showUserInfo: PropTypes.func,
+  updateInputValue: PropTypes.func,
+  updateMatchingList: PropTypes.func
+}
+
 const App = (props) => {
   let app = <SearchUserWrapped />
   if (props.displayedUser)
@@ -100,6 +123,5 @@ const mapStateToPropsForApp = (state) => {
     displayedUser: state.displayedUser
   }
 }
-
 
 export default connect(mapStateToPropsForApp)(App)
